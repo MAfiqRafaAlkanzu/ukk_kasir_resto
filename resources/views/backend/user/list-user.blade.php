@@ -71,7 +71,6 @@
                         <th>#</th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Password</th>
                         <th>Role</th>
                         <th>Action</th>
                         <th hidden>
@@ -120,7 +119,6 @@
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                     { data: 'name', name: 'name'},
                     { data: 'email', name: 'email'},
-                    { data: 'password', name: 'password'},
                     { data: 'role', name:'role'},
                     { data: 'action', name:'action', orderable: false},
                 ]
@@ -141,7 +139,7 @@
         function confirmDelete(id) {
             var table = $('#dataTables').DataTable();        
             var token = $("input[name=token]").val();
-            var deleteUrl = '{{ route('menu.delete',['menuId'=> ':id']) }}'; 
+            var deleteUrl = '{{ route('user.delete',['userId'=> ':id']) }}'; 
             deleteUrl = deleteUrl.replace(':id', id); 
             swal({
                 title: "Are you sure?",

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Menu;
+use App\Models\Seat;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +25,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $menu = Menu::all();
+        $seat = Seat::where('status', 'available')->get();
+        return view('home',[
+            'menu' => $menu,
+            'seat' => $seat
+        ]);
     }
 }

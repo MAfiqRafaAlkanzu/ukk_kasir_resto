@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tables', function (Blueprint $table) {
+        Schema::create('seats', function (Blueprint $table) {
             $table->id();
-            $table->string('table_number');
+            $table->string('seat_number');
             $table->enum('status', ['available', 'not available'])->default('available');
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tables');
+        Schema::dropIfExists('seats');
     }
 };

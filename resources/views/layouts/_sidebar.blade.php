@@ -9,7 +9,7 @@
             @if (Auth::user()->roles == 'manager')
                 <li class="heading">Manager</li>
                 <li>
-                    <a href="javascript:;"><i class="sidebar-item-icon ti-money"></i>
+                    <a href="{{ route('transaction.list') }}"><i class="sidebar-item-icon ti-money"></i>
                         <span class="nav-label"> Transaction </span></a>
                 </li>
             @elseif (Auth::user()->roles == 'admin')
@@ -21,7 +21,7 @@
                     <a href="{{ route('user.list') }}"><i class="sidebar-item-icon ti-user"></i><span class="nav-label"> User</span> </a>
                 </li>
                 <li>
-                    <a href=""><i class="sidebar-item-icon ti-tablet"></i><span class="nav-label"> Table</span></a>
+                    <a href="{{ route('seat.list') }}"><i class="sidebar-item-icon ti-tablet"></i><span class="nav-label"> Seat</span></a>
                 </li>
             @endif
             

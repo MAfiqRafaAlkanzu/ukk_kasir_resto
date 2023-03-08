@@ -17,7 +17,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('transaction_id');
             $table->foreignId('menu_id');
-            $table->string('total');
+            $table->integer('qty');
+            $table->integer('subtotal');
+            // $table->integer('total')->nullable();
             $table->timestamps();
         });
     }

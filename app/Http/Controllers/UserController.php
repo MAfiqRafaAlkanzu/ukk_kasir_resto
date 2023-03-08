@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
 use Illuminate\Support\Str;
-use Datatables;
+use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -38,7 +38,7 @@ class UserController extends Controller
                                             return $user->roles;
                                         })
                                         ->editColumn('action', function($user){
-                                            return '<div class="input-group d-flex w-25"><div class="input-group-btn"><a class="btn btn-outline-primary btn-sm" href="'.route('user.edit', ['userId' => $user->id]).'"><i class="ti-pencil"></i> Edit</a></div></div>';
+                                            return '<div class="input-group d-flex w-25"><div class="input-group-btn"><a class="btn btn-outline-primary btn-sm" href="'.route('user.edit', ['userId' => $user->id]).'"><i class="ti-pencil"></i> Edit</a><button class="btn btn-outline-danger btn-sm delete-btn" type="button" onclick="confirmDelete('.$user->id.')"><i class="ti-trash" data-id="'.$user->id.'"></i> Delete</button></div></div>';
                                         })
                                         ->rawColumns(['image', 'action'])
                                         ->make();        
@@ -70,5 +70,12 @@ class UserController extends Controller
         User::where('id', $userId)->update($validatedData);
 
         return redirect()->back()->with('success', 'Your data has been updated');
+    }
+
+    public function delete($id, Request $request)
+    {
+        User::where('id', $id)->delete();
+
+        return redirect()->back()->with('success', 'Your data has been deleted');
     }
 }

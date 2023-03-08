@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreignId('table_id');
+            $table->foreignId('seat_id');
             $table->string('customer_name');
             $table->enum('status', ['payed', 'unpayed']);
             $table->timestamps();

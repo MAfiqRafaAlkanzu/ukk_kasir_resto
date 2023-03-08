@@ -7,7 +7,7 @@ use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Datatables;
+use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Storage;
 
 class MenuController extends Controller
@@ -81,7 +81,6 @@ class MenuController extends Controller
     public function editMenu($menuId){
 
         $menu = Menu::where('id', $menuId)->first();
-        // dd($menu);
         return view('backend.menu.edit', [
             'menu' => $menu
         ]);
