@@ -12,6 +12,7 @@ use App\Models\Table;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
@@ -84,23 +85,9 @@ class TransactionController extends Controller
         ]);
     }
 
-    public function insert(Request $request)
-    {
-        $validatedData = $request->validate([
-            'user_id'=> 'required',
-            'seat_id' => 'required',
-            'customer_name' => 'required',
-            'menu' => 'required',
-        ]);
-        dd($validatedData);
-
-        Transaction::create($validatedData);
-
-        return redirect()->back()->with('success', 'Data has been inserted successfully');
-    }
-
     public function newInsert(Request $request)
     {
+        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
             'seat_id' => 'required',
@@ -110,13 +97,13 @@ class TransactionController extends Controller
         $get_seat = DB::table('seats')->where('id', $request->seat_id)->get(); //cek status meja
 
         // get status meja
-        if($validator->fails()){
-            return response()->json($validator->errors(), 400);
-        } 
-        else if ($get_seat[0]->status == 'not available'){
-            return response()->json(['success' => false, 'message' => 'Seat not available']);
-            exit;
-        }
+        // if($validator->fails()){
+        //     return response()->json($validator->errors(), 400);
+        // } 
+        // else if ($get_seat[0]->status == 'not available'){
+        //     return response()->json(['success' => false, 'message' => 'Seat not available']);
+        //     exit;
+        // }
 
         $update_meja = Seat::where('id', $request->seat_id)->update([
             'status' => 'not available'
@@ -140,11 +127,51 @@ class TransactionController extends Controller
             $detail_transaksi->save();
         }
 
+        // $details = [];
+        //     for ($i = 0; $i < count($request->detail); $i++) {
+        //         $detail_transaksi = new Detail();
+        //         $detail_transaksi->transaction_id = $transaksi->id;
+        //         $detail_transaksi->menu_id = $request->detail[$i]['menu'];
+        //         $detail_transaksi->qty = $request->detail[$i]['qty'];
+        //         $menu = Menu::where('id', '=', $detail_transaksi->menu_id)->first();
+        //         $harga = $menu->price;
+        //         $detail_transaksi->subtotal = $request->detail[$i]['qty'] * $harga;
+        //         $details[] = $detail_transaksi;
+        //     }
+
+        //     foreach ($details as $detail_transaksi) {
+        //         $detail_transaksi->save();
+        //     }
+
+        // if(isset($request->detail) && !empty($request->detail)){
+        //     $details = [];
+        //     for ($i = 0; $i < count($request->detail); $i++) {
+        //         $detail_transaksi = new Detail();
+        //         $detail_transaksi->transaction_id = $transaksi->id;
+        //         $detail_transaksi->menu_id = $request->detail[$i]['menu'];
+        //         $detail_transaksi->qty = $request->detail[$i]['qty'];
+        //         $menu = Menu::where('id', '=', $detail_transaksi->menu_id)->first();
+        //         $harga = $menu->price;
+        //         $detail_transaksi->subtotal = $request->detail[$i]['qty'] * $harga;
+        //         $details[] = $detail_transaksi;
+        //     }
+        //     // dd($details);
+        
+        //     foreach ($details as $detail_transaksi) {
+        //         $detail_transaksi->save();
+        //     }
+        // } else {
+        //     // code to handle if $request->detail is empty or undefined
+        //     die;
+        // }
+
         $detail = Detail::where('transaction_id', '=', $detail_transaksi->transaction_id)->get();
-        return response()->json([
-            'data' => $transaksi,
-            'detail lengkap' => $detail,
-        ]);
+        // return response()->json([
+        //     'data' => $transaksi,
+        //     'details' => $detail,
+        // ]);
+
+        return redirect()->back()->with('success', 'Your transaction is successfull')->with('id', $transaksi->id);
     }
 
     public function payment(Request $request, $id)
@@ -175,11 +202,20 @@ class TransactionController extends Controller
             'status' => 'available'
         ]);
 
-        return response()->json([
-            'Total' => $total_akhir,
-            'Tunai' => $request->tunai,
-            'Kembali' => $kembali
-        ]); 
+        // return response()->json([
+        //     'Total' => $total_akhir,
+        //     'Tunai' => $request->tunai,
+        //     'Kembali' => $kembali
+        // ]);
+        return redirect()->back()->with('success', 'Your change is Rp.'.$kembali); 
+    }
+
+    public function paymentPage(Request $request, Session $session)
+    {
+        $total = Detail::where('transaction_id', session('id'))->sum('subtotal');
+        return view('backend.transaction.payment',[
+            'total' => $total
+        ]);
     }
 
     public function detailpage($id)

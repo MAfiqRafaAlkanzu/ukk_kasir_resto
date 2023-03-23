@@ -43,9 +43,10 @@
         <span class="pull-right" ><i class="fa fa-info-circle"></i> Menu</span>
     </div>
     @if(Session::has('success'))
-        <div class="alert alert-success text-center">
-            {{Session::get('success')}}
-        </div>
+    <div class="alert alert-success alert-dismissable fade show text-center">
+        <button class="close" data-dismiss="alert" aria-label="Close"></button>
+        {{Session::get('success')}}
+    </div>
     @endif
     <div class="ibox-body">
         <h1 class="font-strong mb-4">All Menu</h1>

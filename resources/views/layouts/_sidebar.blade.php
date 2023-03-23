@@ -23,6 +23,12 @@
                 <li>
                     <a href="{{ route('seat.list') }}"><i class="sidebar-item-icon ti-tablet"></i><span class="nav-label"> Seat</span></a>
                 </li>
+            @elseif (Auth::user()->roles == 'cashier')
+                <li class="heading">Cashier</li>
+                <li>
+                    <a href="{{ route('cashier') }}"><i class="sidebar-item-icon ti-money"></i>
+                        <span class="nav-label"> Transaction </span></a>
+                </li>
             @endif
             
         </ul>

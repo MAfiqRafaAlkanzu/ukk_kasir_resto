@@ -39,7 +39,7 @@ Route::prefix('/user')->middleware(['admin'])->group(function(){
     Route::get('/', [UserController::class, 'list'])->name('user.list');
     Route::get('/data', [UserController::class, 'data'])->name('user.data');
     Route::get('/edit/{userId}', [UserController::class, 'edit'])->name('user.edit');
-    Route::post('/update/{userId}', [UserController::class, 'update'])->name('user.update');
+Route::post('/update/{userId}', [UserController::class, 'update'])->name('user.update');
     Route::post('/delete/{userId}', [UserController::class, 'delete'])->name('user.delete');
 });
 
@@ -62,9 +62,12 @@ Route::prefix('/transaction')->middleware(['manager'])->group(function(){
     Route::get('/{id}', [TransactionController::class, 'detailpage'])->name('transaction.detailpage');
 });
 
-Route::post('/newtransaction', [TransactionController::class, 'newinsert']);
-Route::post('/payment/{id}', [TransactionController::class, 'payment']);
+Route::post('/newtransaction', [TransactionController::class, 'newinsert'])->name('transaction.newinsert');
+Route::get('/payments', [TransactionController::class, 'paymentPage'])->name('transaction.paymentPage');
+Route::post('/payment/{id}', [TransactionController::class, 'payment'])->name('transaction.payment');
 
-Route::prefix('/dashboard')->middleware(['cashier'])->group(function(){
+Route::prefix('/cashier')->middleware(['cashier'])->group(function(){
     Route::get('/', [CashierController::class, 'index'])->name('cashier');
+    Route::get('/data', [CashierController::class, 'data'])->name('cashier.data');
+    Route::get('/total/{id}', [CashierController::class, 'getTotal'])->name('cashier.total');
 });

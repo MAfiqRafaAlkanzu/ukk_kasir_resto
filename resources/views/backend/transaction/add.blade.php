@@ -14,7 +14,8 @@
                     <div class="ibox-title">Add New Transaction</div>
                 </div>
                 @if(Session::has('success'))
-                <div class="alert alert-success text-center">
+                <div class="alert alert-success alert-dismissable fade show text-center">
+                    <button class="close" data-dismiss="alert" aria-label="Close"></button>
                     {{Session::get('success')}}
                 </div>
                 @endif
@@ -64,7 +65,8 @@
                     <div class="ibox-footer">
                         <a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>
                         <button class="btn btn-primary ml-2 pull-right" type="submit">Save new table</button>
-                    </form>      
+                    </form>
+                      
                 </div>
             </div>
         </div>
@@ -74,4 +76,6 @@
 @section('custom-js')
     <script src="{{ asset('backend') }}/assets/vendors/select2/dist/js/select2.full.min.js"></script>
     <script src="{{ asset('backend') }}/assets/js/scripts/form-plugins.js"></script>
+
+    
 @endsection

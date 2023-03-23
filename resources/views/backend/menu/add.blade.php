@@ -15,7 +15,8 @@
                     <div class="ibox-title">Insert New Menu</div>
                 </div>
                 @if(Session::has('success'))
-                <div class="alert alert-success text-center">
+                <div class="alert alert-success alert-dismissable fade show text-center">
+                    <button class="close" data-dismiss="alert" aria-label="Close"></button>
                     {{Session::get('success')}}
                 </div>
                 @endif
